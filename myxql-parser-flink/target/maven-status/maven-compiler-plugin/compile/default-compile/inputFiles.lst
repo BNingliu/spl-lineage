@@ -1,6 +1,0 @@
-D:\workspace\myxql\myxql-parser-flink\src\main\java\com\myxql\parser\flink\parser\MyFlinkSQLParser.java
-D:\workspace\myxql\myxql-parser-flink\src\main\java\com\myxql\parser\flink\parser\FlinkSQLPostProcessor.java
-D:\workspace\myxql\myxql-parser-flink\src\main\java\com\myxql\parser\flink\parser\FlinkSQLFieldLineageAstBuilder.java
-D:\workspace\myxql\myxql-parser-flink\src\main\java\com\myxql\parser\flink\parser\FlinkSQLFieldLineageParser.java
-D:\workspace\myxql\myxql-parser-flink\src\main\java\com\myxql\parser\flink\parser\FlinkSQLTableLineageParser.java
-D:\workspace\myxql\myxql-parser-flink\src\main\java\com\myxql\parser\flink\parser\FlinkSQLTableLineageAstBuilder.java

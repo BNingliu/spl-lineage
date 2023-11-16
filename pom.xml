@@ -25,7 +25,6 @@
     <module>myxql-parser-postgresql</module>
 <!--   <module>myxql-meatstore</module>-->
 <!--   <module>myxql-server</module>-->
-<!--   <module>myxql-parser-flink</module>-->
   </modules>
 
   <name>myxql</name>
