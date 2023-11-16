@@ -7,7 +7,8 @@ node_modules/
 ### Java template
 # Compiled class file
 *.class
-
+*.jar
+*.lst
 # Log file
 #*.log
 
@@ -146,4 +147,3 @@ Network Trash Folder
 Temporary Items
 .apdisk
 ./logs
-/ytd-flink-template/src/test/java/com.ytd.template.api/
