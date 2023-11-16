@@ -4,7 +4,7 @@
 
 #### 介绍
 
-血缘分析，支持包括spark/hive/presto/postgreSQL/mysql等常见大数据引擎，采用antlr4实现从SQL语句中解析表血缘关系和字段血缘解关系。同时支持从SQL作业中分解参数及提取每条SQL的血缘数据。
+血缘分析，支持包括spark/hive/impala/presto/postgreSQL/mysql等常见大数据引擎，采用antlr4实现从SQL语句中解析表血缘关系和字段血缘解关系。同时支持从SQL作业中分解参数及提取每条SQL的血缘数据。
 #### 说明
 基于 antlr4-4.9.3 与jdk-1.8 版本
 #### 软件架构
