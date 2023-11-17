@@ -1,4 +1,4 @@
-// Generated from D:/workspace/myxql/myxql-parser-hive/src/main/antlr4/com/myxql/parser/hive/antlr4\Hplsql.g4 by ANTLR 4.9.2
+// Generated from com/myxql/parser/hive/antlr4/Hplsql.g4 by ANTLR 4.9.3
 package com.myxql.parser.hive.antlr4;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 

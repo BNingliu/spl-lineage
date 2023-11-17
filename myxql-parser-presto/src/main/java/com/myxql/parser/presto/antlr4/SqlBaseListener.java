@@ -1,4 +1,4 @@
-// Generated from com\myxql\parser\presto\antlr4\SqlBase.g4 by ANTLR 4.10.1
+// Generated from com/myxql/parser/presto/antlr4/SqlBase.g4 by ANTLR 4.9.3
 package com.myxql.parser.presto.antlr4;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

@@ -1,4 +1,4 @@
-// Generated from com\myxql\parser\postgresql\antlr4\PostgreSQLParser.g4 by ANTLR 4.10.1
+// Generated from com/myxql/parser/postgresql/antlr4/PostgreSQLParser.g4 by ANTLR 4.9.3
 package com.myxql.parser.postgresql.antlr4;
 
 
