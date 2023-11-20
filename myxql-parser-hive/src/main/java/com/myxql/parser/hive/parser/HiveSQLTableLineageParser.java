@@ -7,6 +7,7 @@ import com.myxql.parser.antlr4.UpperCaseCharStream;
 import com.myxql.parser.hive.antlr4.HplsqlLexer;
 import com.myxql.parser.hive.antlr4.HplsqlParser;
 import com.myxql.parser.model.StatementLineage;
+import lombok.Data;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.atn.PredictionMode;
@@ -15,7 +16,14 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 
+@Data
 public class HiveSQLTableLineageParser {
+    private Integer dbType;
+
+    public HiveSQLTableLineageParser(Integer dbType) {
+        this.dbType = dbType;
+    }
+
     public StatementLineage parse(String command) {
         String trimCmd = StringUtils.trim(command);
 
@@ -32,7 +40,7 @@ public class HiveSQLTableLineageParser {
         parser.addErrorListener(new ParseErrorListener());
         parser.getInterpreter().setPredictionMode(PredictionMode.SLL);
 
-        HiveSQLTableLineageAstBuilder sqlVisitor = new HiveSQLTableLineageAstBuilder();
+        HiveSQLTableLineageAstBuilder sqlVisitor = new HiveSQLTableLineageAstBuilder(dbType);
         sqlVisitor.setCommand(trimCmd);
 
         try {

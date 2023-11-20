@@ -1,19 +1,38 @@
 package com.myxql.parser.model;
 
+import lombok.Data;
+
 import java.util.Objects;
 import java.util.Optional;
-
+@Data
 public class TableName {
     private Optional<String> catalogName;
     private Optional<String> databaseName;
     private String tableName;
     private Optional<String> metaType;
+    private Integer dbType;
 
-    public TableName(Optional<String> catalogName, Optional<String> databaseName, String tableName, Optional<String> metaType) {
+    public TableName(
+            Optional<String> catalogName,
+            Optional<String> databaseName,
+            String tableName,
+            Optional<String> metaType,
+            Integer dbType
+    ) {
         this.catalogName = catalogName;
         this.databaseName = databaseName;
         this.tableName = tableName;
         this.metaType = metaType;
+        this.dbType=dbType;
+    }
+
+    public TableName(
+            Optional<String> catalogName,
+            Optional<String> databaseName,
+            String tableName,
+            Optional<String> metaType
+    ) {
+        this(Optional.empty(), databaseName, tableName, metaType,0);
     }
 
     public TableName(Optional<String> databaseName, String tableName, Optional<String> metaType) {
@@ -22,6 +41,10 @@ public class TableName {
 
     public TableName(Optional<String> catalogName, Optional<String> databaseName, String tableName) {
         this(catalogName, databaseName, tableName, Optional.empty());
+    }
+
+    public TableName(Optional<String> catalogName, Optional<String> databaseName, String tableName,Integer dbType) {
+        this(catalogName, databaseName, tableName, Optional.empty(),dbType);
     }
 
     public TableName(Optional<String> databaseName, String tableName) {
@@ -81,6 +104,10 @@ public class TableName {
     }
 */
     public static TableName parseTableName(String names) {
+        return parseTableName(names,0);
+    }
+
+    public static TableName parseTableName(String names,Integer dbType) {
         TableName tableName = new TableName();
         String[] splitTable = names.split("\\.");
         if(splitTable.length == 2) {
@@ -93,6 +120,7 @@ public class TableName {
             tableName.setDatabaseName(ModelHelper.dealNameMark(splitTable[1]));
             tableName.setTableName(ModelHelper.dealNameMark(splitTable[2]));
         }
+        tableName.setDbType(dbType);
         return tableName;
     }
 

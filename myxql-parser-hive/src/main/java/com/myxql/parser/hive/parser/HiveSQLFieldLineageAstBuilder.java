@@ -21,6 +21,13 @@ import static com.myxql.parser.hive.parser.HiveSQLTableLineageAstBuilder.getLoca
 
 public class HiveSQLFieldLineageAstBuilder extends HplsqlBaseVisitor<Statement> {
 //    private Logger logger = LoggerFactory.getLogger(HiveSQLFieldLineageAstBuilder.class);
+
+    private Integer dbType;
+
+    public HiveSQLFieldLineageAstBuilder(Integer dbType) {
+        this.dbType = dbType;
+    }
+
     private String command = null;
     private StatementType statementType;
 
@@ -48,14 +55,14 @@ public class HiveSQLFieldLineageAstBuilder extends HplsqlBaseVisitor<Statement> 
 //        InsertInto plan = (InsertInto) visit(ctx.statement());
 //        logger.info("visitBlock, plan=" + JSONObject.toJSONString(data));
         PlanParser planParser = new PlanParser();
-        TableData tableData = planParser.parseTableData((InsertInto) data);
+        TableData tableData = planParser.parseTableData((InsertInto) data,dbType);
         StatementLineage statementLineage = new StatementLineage(this.statementType, Optional.ofNullable(tableData), this.command);
         return statementLineage;
     }
 
     @Override
     public LogicalPlan visitInsert_stmt(HplsqlParser.Insert_stmtContext ctx) {
-        TableName tableName = TableName.parseTableName(ctx.table_name().getText());
+        TableName tableName = TableName.parseTableName(ctx.table_name().getText(),dbType);
 
         List<String> cols = Optional.ofNullable(ctx.insert_stmt_cols())
                 .map(HplsqlParser.Insert_stmt_colsContext::ident)
@@ -349,7 +356,7 @@ public class HiveSQLFieldLineageAstBuilder extends HplsqlBaseVisitor<Statement> 
     public TableAlias visitFrom_table_name_clause(HplsqlParser.From_table_name_clauseContext ctx) {
         TableName tableName = Optional.ofNullable(ctx.table_name())
                 .map(RuleContext::getText)
-                .map(TableName::parseTableName)
+                .map((m)->TableName.parseTableName(m,dbType))
                 .orElse(null);
         Optional<String> alias = Optional.ofNullable(ctx.from_alias_clause())
                 .map(HplsqlParser.From_alias_clauseContext::ident)

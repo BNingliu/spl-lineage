@@ -5,11 +5,21 @@ import java.util.Optional;
 
 public class ColumnName {
     private Optional<String> dbName;
+
+    private  Integer dbType;
     private String tableName;
     private String fieldName;
     private Optional<String> process;
 
     public ColumnName() {
+    }
+
+    public Integer getDbType() {
+        return dbType;
+    }
+
+    public void setDbType(Integer dbType) {
+        this.dbType = dbType;
     }
 
     public ColumnName(Optional<String> dbName, String tableName, String fieldName, Optional<String> process) {

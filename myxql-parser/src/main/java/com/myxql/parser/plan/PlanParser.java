@@ -21,6 +21,11 @@ public class PlanParser {
      * 解析字段血缘列表
      */
     public TableData parseTableData(InsertInto insertInto) {
+        return this.parseTableData(insertInto,0) ;
+    }
+
+
+    public TableData parseTableData(InsertInto insertInto,Integer dbType) {
         // 获取ctes
         this.hasCtes = insertInto.hasCtes();
         this.ctes = insertInto.getCtes();
@@ -28,7 +33,7 @@ public class PlanParser {
         List<ColumnLineage> resultList = new ArrayList<>();
         for(LogicalPlan logicalPlan : insertInto.getInsertIntos()) {
             if(insertInto.getTargetType().equals(InsertInto.TARGET_TYPE_TABLE)) {
-                List<ColumnLineage> retList = this.parseSingleInsertTable((InsertIntoTable) logicalPlan);
+                List<ColumnLineage> retList = this.parseSingleInsertTable((InsertIntoTable) logicalPlan,dbType);
                 resultList.addAll(retList);
             } else {
                 System.out.println("unsupport into dir statement");
@@ -41,6 +46,10 @@ public class PlanParser {
     }
 
     private List<ColumnLineage> parseSingleInsertTable(InsertIntoTable insertIntoTable) {
+        return this.parseSingleInsertTable(insertIntoTable,0);
+    }
+
+    private List<ColumnLineage> parseSingleInsertTable(InsertIntoTable insertIntoTable,Integer dbType) {
         List<ColumnLineage> targetColumnList = new ArrayList<>();
         QueryData queryData = ((QueryData) insertIntoTable.getQuery());
         List<ColumnName> columnNameList= this.getTargetColumnList(queryData);
@@ -105,6 +114,14 @@ public class PlanParser {
 
         if(resultList.isEmpty()) {
             resultList.addAll(targetColumnList);
+        }
+        for (ColumnLineage columnLineage : resultList) {
+            columnLineage.getTargetField().setDbType(dbType);
+            String fieldName = columnLineage.getTargetField().getFieldName();
+            columnLineage.getTargetField().setFieldName(fieldName.replaceAll("\\)","").trim());
+            for (ColumnName sourceField : columnLineage.getSourceFields()) {
+                sourceField.setDbType(dbType);
+            }
         }
 
 //        logger.info("resultList=" + JSONObject.toJSONString(resultList));

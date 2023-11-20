@@ -21,6 +21,12 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 public class HiveSQLTableLineageAstBuilder extends HplsqlBaseVisitor<StatementLineage> {
+    private Integer dbType;
+
+    public HiveSQLTableLineageAstBuilder(Integer dbType) {
+        this.dbType = dbType;
+    }
+
     private StatementType currentOptType = StatementType.UNKOWN;
     private TableData tableData = new TableData();
     private Optional<String> multiInsertToken = Optional.empty();
@@ -226,7 +232,11 @@ public class HiveSQLTableLineageAstBuilder extends HplsqlBaseVisitor<StatementLi
     @Override
     public StatementLineage visitDescribe_stmt(HplsqlParser.Describe_stmtContext ctx) {
         TableName tableName = TableName.parseTableName(ctx.table_name().getText());
-        Table sqlData = new Table(tableName.getCatalogName(), tableName.getDatabaseName(), tableName.getTableName());
+        Table sqlData = new Table(
+                tableName.getCatalogName(),
+                tableName.getDatabaseName(),
+                tableName.getTableName()
+        );
         return new StatementLineage(StatementType.DESC_DATABASE, Optional.of(sqlData));
     }
 
@@ -271,7 +281,7 @@ System.out.println("visitSelect_stmt, xxxxxxxxxxxxxxxxx");
                 .map(HplsqlParser.From_table_clauseContext::from_table_name_clause)
                 .map(HplsqlParser.From_table_name_clauseContext::table_name)
                 .map(RuleContext::getText)
-                .map(TableName::parseTableName)
+                .map((m)->TableName.parseTableName(m,dbType))
                 .map(tableName -> {
                     this.tableData.getInputTables().add(tableName);
                     return null;
@@ -285,7 +295,7 @@ System.out.println("visitSelect_stmt, xxxxxxxxxxxxxxxxx");
                     .map(HplsqlParser.From_table_clauseContext::from_table_name_clause)
                     .map(HplsqlParser.From_table_name_clauseContext::table_name)
                     .map(RuleContext::getText)
-                    .map(TableName::parseTableName)
+                    .map((m)->TableName.parseTableName(m,dbType))
                     .map(tableName -> this.tableData.getInputTables().add(tableName));
         }
 
@@ -304,7 +314,12 @@ System.out.println("visitSelect_stmt, xxxxxxxxxxxxxxxxx");
     @Override
     public StatementLineage visitInsert_stmt(HplsqlParser.Insert_stmtContext ctx) {
         TableName tableName = TableName.parseTableName(ctx.table_name().getText());
-        TableName table = new TableName(tableName.getCatalogName(), tableName.getDatabaseName(), tableName.getTableName());
+        TableName table = new TableName(
+                tableName.getCatalogName(),
+                tableName.getDatabaseName(),
+                tableName.getTableName(),
+                dbType
+        );
         this.tableData.getOutpuTables().add(table);
 
         // insert mode
