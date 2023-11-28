@@ -1,6 +1,6 @@
 package com.myxql.parser.mysql;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.myxql.parser.model.*;
 import com.myxql.parser.mysql.parser.MySqlSQLParser;
 

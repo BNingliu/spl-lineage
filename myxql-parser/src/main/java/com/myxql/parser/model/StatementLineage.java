@@ -11,6 +11,16 @@ public class StatementLineage extends Statement implements Serializable {
     private Optional<String> querySql;
     private Optional<List<List<String>>> values;
 
+
+
+    private  Integer relationship;
+    public Integer getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(Integer relationship) {
+        this.relationship = relationship;
+    }
     public StatementType getType() {
         return this.type;
     }

@@ -1,7 +1,10 @@
 package com.myxql.parser;
 
+import com.myxql.parser.model.ColumnLineage;
 import com.myxql.parser.model.MultiStatementLineage;
 import com.myxql.parser.model.StatementLineage;
+
+import java.util.List;
 
 /**
  * SqlParserService
@@ -33,4 +36,7 @@ public interface SqlParserService {
      * sql解析字段元数据
      */
     StatementLineage parseSqlFieldLineage(String sql);
+
+    List<ColumnLineage> parseSqlFieldLineage2(String sql);
+
 }

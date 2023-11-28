@@ -19,9 +19,11 @@ import java.util.Arrays;
 @Data
 public class HiveSQLTableLineageParser {
     private Integer dbType;
+    private Integer relationship;
 
-    public HiveSQLTableLineageParser(Integer dbType) {
+    public HiveSQLTableLineageParser(Integer dbType,Integer relationship) {
         this.dbType = dbType;
+        this.relationship=relationship;
     }
 
     public StatementLineage parse(String command) {

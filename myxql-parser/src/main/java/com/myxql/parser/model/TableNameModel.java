@@ -14,7 +14,6 @@ public class TableNameModel {
 
     public static TableNameModel parseTableName(String tableName) {
         TableNameModel tableNameModel = new TableNameModel();
-        System.out.println("TableNameModel.parseTableName, tableName="+tableName);
         String[] splitTable = tableName.split("\\.");
         if(splitTable.length == 2) {
             tableNameModel.setDbName(splitTable[0]);

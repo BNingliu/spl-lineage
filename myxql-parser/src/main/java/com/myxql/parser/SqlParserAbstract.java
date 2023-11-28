@@ -1,9 +1,10 @@
 package com.myxql.parser;
 
+import com.myxql.parser.model.ColumnLineage;
 import com.myxql.parser.model.MultiStatementLineage;
 import com.myxql.parser.model.StatementLineage;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * @ClassName SqlParserAbstractFactory
@@ -44,6 +45,12 @@ public abstract class SqlParserAbstract implements SqlParserService {
 
     @Override
     public StatementLineage parseSqlFieldLineage(String sql) {
+        notSupport("parseSqlFieldLineage");
+        return null;
+    }
+
+    @Override
+    public List<ColumnLineage> parseSqlFieldLineage2(String sql) {
         notSupport("parseSqlFieldLineage");
         return null;
     }

@@ -1,13 +1,10 @@
 package com.myxql.parser.plan;
 
-import com.alibaba.fastjson.JSONObject;
 import com.myxql.parser.model.ColumnLineage;
 import com.myxql.parser.model.ColumnName;
 import com.myxql.parser.model.SelectItem;
 import com.myxql.parser.model.TableData;
 import org.apache.commons.lang3.tuple.Pair;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -76,7 +73,13 @@ public class PlanParser {
                     this.sourceFieldResult = new SourceFieldResult();
 
                     this.findFieldSource(item.getAlias(), itemPair.getRight());
-                    sourceFields.addAll(this.sourceFieldResult.getSourceFields());
+                    if(this.sourceFieldResult.getSourceFields().size()==0){
+                        ColumnName fieldName = new ColumnName();
+                        fieldName.setProcess(Optional.of(sourceFieldResult.getFieldProcess()));
+                        sourceFields.add(fieldName);
+                    }else {
+                        sourceFields.addAll(this.sourceFieldResult.getSourceFields());
+                    }
                 }
                 columnLineage.setSourceFields(sourceFields);
                 targetColumnList.add(columnLineage);
@@ -119,6 +122,7 @@ public class PlanParser {
             columnLineage.getTargetField().setDbType(dbType);
             String fieldName = columnLineage.getTargetField().getFieldName();
             columnLineage.getTargetField().setFieldName(fieldName.replaceAll("\\)","").trim());
+
             for (ColumnName sourceField : columnLineage.getSourceFields()) {
                 sourceField.setDbType(dbType);
             }

@@ -1,6 +1,6 @@
 package com.myxql.parser.presto.parser;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.myxql.parser.antlr4.Origin;
 import com.myxql.parser.antlr4.ParseException;
 import com.myxql.parser.model.*;

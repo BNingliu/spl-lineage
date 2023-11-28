@@ -1,7 +1,7 @@
 package com.myxql.parser;
 
 import com.myxql.parser.db.Platform;
-import com.myxql.parser.hive.parser.MyHiveSQLParser;
+import com.myxql.parser.hive.parser.DataSQLParser;
 import com.myxql.parser.spark.parser.MySparkSQLParser;
 
 /**
@@ -11,13 +11,13 @@ import com.myxql.parser.spark.parser.MySparkSQLParser;
  */
 public class SqlParserFactory {
 
-    public static SqlParserService getParser(Integer dbType) {
+    public static SqlParserService getParser(Integer dbType,Integer relationship) {
         if (Platform.spark.getPlatform()==dbType) {
             return new MySparkSQLParser();
         } else if (Platform.hive.getPlatform()==dbType) {
-            return new MyHiveSQLParser(dbType);
+            return new DataSQLParser(dbType,relationship);
         } else if (Platform.impala.getPlatform()==dbType) {
-            return new MyHiveSQLParser(dbType);
+            return new DataSQLParser(dbType,relationship);
 //        } else if (SqlEngineEnum.MYSQL.equals(sqlEngineEnum)) {
 //            return new MysqlSqlParser();
 //        } else if (EngineTypeEnum.PRESTO.equals(dbTypeEnum)) {

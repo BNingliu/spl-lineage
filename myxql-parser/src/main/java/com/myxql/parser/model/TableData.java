@@ -1,6 +1,6 @@
 package com.myxql.parser.model;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 
 import java.util.*;
 

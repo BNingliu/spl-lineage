@@ -23,7 +23,10 @@
     <module>myxql-parser-presto</module>
     <module>myxql-parser-mysql</module>
     <module>myxql-parser-postgresql</module>
-<!--   <module>myxql-meatstore</module>-->
+    <module>myxql-parser-datax</module>
+    <module>myxql-parser-clickhouse</module>
+
+    <!--   <module>myxql-meatstore</module>-->
 <!--   <module>myxql-server</module>-->
   </modules>
 
@@ -38,7 +41,7 @@
 
     <commons-codec.version>1.14</commons-codec.version>
     <commons-collections.version>3.2.2</commons-collections.version>
-
+    <fastjson2.version>2.0.41</fastjson2.version>
     <antlr4.version>4.9.3</antlr4.version>
 <!--    <antlr4.version>4.10.1</antlr4.version>-->
   </properties>
@@ -83,6 +86,12 @@
     <dependency>
       <groupId>com.myxql</groupId>
       <artifactId>myxql-parser-job</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.myxql</groupId>
+      <artifactId>myxql-parser-datax</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
 
@@ -142,10 +151,17 @@
     </dependency>
     <!--项目用-->
     <dependency>
+      <groupId>com.alibaba.fastjson2</groupId>
+      <artifactId>fastjson2</artifactId>
+      <version>${fastjson2.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
       <version>1.2.54</version>
     </dependency>
+
     <!--项目用-->
     <dependency>
       <groupId>com.google.guava</groupId>
