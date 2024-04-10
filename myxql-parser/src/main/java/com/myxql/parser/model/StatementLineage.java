@@ -28,6 +28,9 @@ public class StatementLineage extends Statement implements Serializable {
     public Optional<Statement> getStatement() {
         return this.statement;
     }
+    public void setStatement(Optional<Statement> statement) {
+        this.statement = statement;
+    }
 
     public Optional<String> getQuerySql() {
         return this.querySql;

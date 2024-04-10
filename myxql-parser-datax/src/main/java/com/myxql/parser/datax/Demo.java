@@ -1,90 +1,113 @@
-//package com.myxql.parser.datax;
+package com.myxql.parser.datax;
+
+import com.alibaba.fastjson2.JSON;
+import com.myxql.parser.datax.parser.ParserFactory;
+import com.myxql.parser.model.StatementLineage;
+
+/**
+ * @program: myxql
+ * @description:
+ * @author: liuningbo
+ * @create: 2023/11/15 13:21
+ */
+public class Demo {
+    public static void main(String[] args) {
+        String  sql ="{\n" +
+                "\t\"job\":{\n" +
+                "\t\t\"setting\":{\n" +
+                "\t\t\t\"speed\":{\n" +
+                "\t\t\t\t\"channel\":\"3\",\n" +
+                "\t\t\t\t\"byte\":\"1047552\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t\"errorLimit\":{\n" +
+                "\t\t\t\t\"record\":\"0\",\n" +
+                "\t\t\t\t\"percentage\":\"0.02\"\n" +
+                "\t\t\t}\n" +
+                "\t\t},\n" +
+                "\t\t\"content\":[\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"reader\":{\n" +
+                "\t\t\t\t\t\"name\":\"postgresqlreader\",\n" +
+                "\t\t\t\t\t\"parameter\":{\n" +
+                "\t\t\t\t\t\t\"column\":[\n" +
+                "\t\t\t\t\t\t\t\"id\",\n" +
+                "\t\t\t\t\t\t\t\"name\",\n" +
+                "\t\t\t\t\t\t\t\"avg\",\n" +
+                "\t\t\t\t\t\t\t\"phone\",\n" +
+                "\t\t\t\t\t\t\t\"column1\"\n" +
+                "\t\t\t\t\t\t],\n" +
+                "\t\t\t\t\t\t\"username\":\"28b209a56a48524a165f30c0196c2d14\",\n" +
+                "\t\t\t\t\t\t\"password\":\"28b209a56a48524a165f30c0196c2d14\",\n" +
+                "\t\t\t\t\t\t\"splitPk\":\"\",\n" +
+                "\t\t\t\t\t\t\"connection\":[\n" +
+                "\t\t\t\t\t\t\t{\n" +
+                "\t\t\t\t\t\t\t\t\"table\":[\n" +
+                "\t\t\t\t\t\t\t\t\t\"public.ods_ods_v5\"\n" +
+                "\t\t\t\t\t\t\t\t],\n" +
+                "\t\t\t\t\t\t\t\t\"jdbcUrl\":[\n" +
+                "\t\t\t\t\t\t\t\t\t\"jdbc:postgresql://192.168.2.131:15432/qianbase\"\n" +
+                "\t\t\t\t\t\t\t\t]\n" +
+                "\t\t\t\t\t\t\t}\n" +
+                "\t\t\t\t\t\t]\n" +
+                "\t\t\t\t\t}\n" +
+                "\t\t\t\t},\n" +
+                "\t\t\t\t\"writer\":{\n" +
+                "\t\t\t\t\t\"name\":\"aftwriter\",\n" +
+                "\t\t\t\t\t\"parameter\":{\n" +
+                "\t\t\t\t\t\t\"path\":\"/home/aft4c/file/\",\n" +
+                "\t\t\t\t\t\t\"fileName\":\"ods_v1\",\n" +
+                "\t\t\t\t\t\t\"writeMode\":\"truncate\",\n" +
+                "\t\t\t\t\t\t\"suffix\":\".del\",\n" +
+                "\t\t\t\t\t\t\"compress\":\"\",\n" +
+                "\t\t\t\t\t\t\"compressPassword\":\"\",\n" +
+                "\t\t\t\t\t\t\"header\":[\n" +
+                "\t\t\t\t\t\t\t\"id\",\n" +
+                "\t\t\t\t\t\t\t\"name\",\n" +
+                "\t\t\t\t\t\t\t\"avg\",\n" +
+                "\t\t\t\t\t\t\t\"phone\",\n" +
+                "\t\t\t\t\t\t\t\"column1\"\n" +
+                "\t\t\t\t\t\t],\n" +
+                "\t\t\t\t\t\t\"fieldDelimiter\":\"|@|\",\n" +
+                "\t\t\t\t\t\t\"op\":\"aft\",\n" +
+                "\t\t\t\t\t\t\"app\":\"di\",\n" +
+                "\t\t\t\t\t\t\"r_app\":\"base\",\n" +
+                "\t\t\t\t\t\t\"basePort\":\"10066\",\n" +
+                "\t\t\t\t\t\t\"host\":\"192.168.2.133\",\n" +
+                "\t\t\t\t\t\t\"port\":\"7966\",\n" +
+                "\t\t\t\t\t\t\"username\":\"8abf392fe1e40e9c0fa7f9fd8a12a43f\",\n" +
+                "\t\t\t\t\t\t\"password\":\"792232e75b3336cc758d9f866ff9c4d0\"\n" +
+                "\t\t\t\t\t}\n" +
+                "\t\t\t\t}\n" +
+                "\t\t\t}\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t\"core\":{\n" +
+                "\t\t\"transport\":{\n" +
+                "\t\t\t\"channel\":{\n" +
+                "\t\t\t\t\"speed\":{\n" +
+                "\t\t\t\t\t\"batchSize\":\"2048\",\n" +
+                "\t\t\t\t\t\"record\":\"-1\",\n" +
+                "\t\t\t\t\t\"byte\":\"1231412\"\n" +
+                "\t\t\t\t}\n" +
+                "\t\t\t}\n" +
+                "\t\t}\n" +
+                "\t}\n" +
+                "}";
+        StatementLineage statementLineage = ParserFactory.getrelationSqlHandler(sql);
+        System.out.println(JSON.toJSONString(statementLineage));
+
+
+//        DataxParser dataxParser = new DataxParser(Platform.datax.getPlatform());
+//        StatementLineage data = dataxParser.parseSqlTableLineage(sql);
+//        TableData tableData =(TableData) data.getStatement().get();
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("descName","代发可群标签");
+//        TableName tableName = new TableName(Optional.of("portrait_80"),"xx标签",jsonObject);
+//        tableData.setOutpuTables(Collections.singletonList(tableName));
 //
-//import com.alibaba.fastjson2.JSON;
-//import com.myxql.parser.db.Platform;
-//import com.myxql.parser.datax.parser.MyHiveSQLParser;
-//import com.myxql.parser.model.*;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-///**
-// * @program: myxql
-// * @description:
-// * @author: liuningbo
-// * @create: 2023/11/15 13:21
-// */
-//public class Demo {
-//    public static void main(String[] args) {
-//        String sql = "INSERT INTO TABLE db_test.table_result SELECT t1.id, name FROM ( SELECT id1 + id2 AS id FROM db_test.table1 ) t1 LEFT JOIN ( SELECT id, name FROM ( SELECT id, sourcename AS name FROM db_test.table2 ) ) t2 ON t1.id=t2.id";
-//
-//        //    sql =
-//        //        "INSERT INTO TABLE db_test.table_result SELECT DISTINCT mobile distinct_id ,  \n"
-//        //            + "           CASE WHEN t2.org_name=\"V上海自贸区\"  THEN 1\n"
-//        //            + "                ELSE 0\n"
-//        //            + "            end tag_value,from_unixtime(unix_timestamp(),'yyyy-MM-dd')
-//        // base_day\n"
-//        //            + "from  \n"
-//        //            + "(select mobile,case when length(org_code) < 8 then concat('0',org_code)  else
-//        // org_code  end  as org_code  from bhyh.customer\n"
-//        //            + "union\n"
-//        //            + "select mobile,case when length(org_code) < 8 then concat('0',org_code)  else
-//        // org_code end as org_code from bhyh.new_customer\n"
-//        //            + ") t1\n"
-//        //            + "inner JOIN bhyh.org t2\n"
-//        //            + "on t1.org_code=t2.org_code  ";
-//
-//        sql =
-//                "INSERT INTO TABLE db_test.table_result " +
-//                        "select distinct m1.mobile_t1 distinct_id,\n" +
-//                        "case when m1.mobile_t2 is null then 1\n" +
-//                        "when m1.mobile_t2 is not null then 2 \n" +
-//                        "else 0 end tag_value,from_unixtime(unix_timestamp(),'yyyy-MM-dd') base_day \n" +
-//                        "from\n" +
-//                        "(select t1.mobile mobile_t1,t2.mobile mobile_t2 from bhyh.customer  t1  \n" +
-//                        "left join \n" +
-//                        "(select mobile from bhyh.customer group by mobile having count(1) >1) t2\n" +
-//                        "on t1.mobile = t2.mobile\n" +
-//                        ") m1\n" +
-//                        "left join \n" +
-//                        "(SELECT * from (SELECT cif,mobile, row_number() over (PARTITION BY cif ORDER BY create_time DESC) rm \n" +
-//                        "                from bhyh.customer) ct WHERE ct.rm =1 )  m2\n" +
-//                        "on m1.mobile_t1= m2.mobile\n" +
-//                        "where m2.mobile is not null ";
-//
-//
-////        System.out.println(sql.length());
-//        MyHiveSQLParser parserService = new MyHiveSQLParser(Platform.hive.getPlatform());
-////        StatementLineage data = parserService.parseSqlTableLineage(sql);
-////        System.out.println(JSON.toJSONString(data));
-//
-//// 输入的SQL语句
-////       sql = "INSERT INTO TABLE db_test.table_result(idd, name) SELECT t1.id, name_x FROM ( SELECT id1 + id2 AS id FROM db_test.table1 ) t1 LEFT JOIN ( SELECT id, name_x FROM ( SELECT id, sourcename AS name_x FROM db_test.table2 ) ) t2 ON t1.id=t2.id";
-//        // 解析字段血缘
-//        StatementLineage statementLineage = parserService.parseSqlFieldLineage(sql);
-//// 解析语句，返回语句血缘数据
-//        Optional<Statement> statement = statementLineage.getStatement();
-//        StatementType type = statementLineage.getType();
-//        // 获取语句类型
-//
-//        System.out.println(type);
-//        statement.map(
-//                stmt -> {
-//                    if (stmt instanceof TableData) {
-//                        TableData tableData = (TableData) stmt;
-//                        // 字段血缘数据
-//                        List<ColumnLineage> columnLineageList = tableData.getColumnDatas().get();
-//                        System.out.println(JSON.toJSONString(columnLineageList));
-//
-////            // 字段血缘列表
-////            System.out.println(columnLineageList.size());
-////              // 字段来源
-////
-////              System.out.println(columnLineageList.get(0).getSourceFields().size());
-////              System.out.println( columnLineageList.get(1).getSourceFields().size());
-//
-//                    }
-//                    return null;
-//                });
-//    }
-//}
+//        System.out.println(JSON.toJSONString(data));
+
+
+
+    }
+}

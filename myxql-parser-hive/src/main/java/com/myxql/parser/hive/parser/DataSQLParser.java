@@ -1,6 +1,7 @@
 package com.myxql.parser.hive.parser;
 
 import com.myxql.parser.SqlParserAbstract;
+import com.myxql.parser.hive.RemoveAliases;
 import com.myxql.parser.hive.antlr4.HplsqlLexer;
 import com.myxql.parser.hive.antlr4.HplsqlParser;
 import com.myxql.parser.model.ColumnLineage;
@@ -21,16 +22,28 @@ public class DataSQLParser extends SqlParserAbstract {
     public DataSQLParser() {
     }
 
-    public DataSQLParser(Integer dbType,Integer relationship) {
+    public DataSQLParser(Integer dbType) {
         this.dbType = dbType;
-        this.relationship=relationship;
+    }
+
+    public DataSQLParser(Integer dbType, Integer relationship) {
+        this.dbType = dbType;
+        this.relationship = relationship;
     }
 
     @Override
     public StatementLineage parseSqlTableLineage(String sql) {
-        HiveSQLTableLineageParser tableLineageParser = new HiveSQLTableLineageParser(dbType,relationship);
+//        sql  = sql.replaceAll("'","").replaceAll("\"","");
+        // 匹配where条件中的单引号并替换为空字符串
+        String pattern = "(?i)where\\s+([^']+)'([^']+)'";
+        sql = sql.replaceAll(pattern, "WHERE $1$2");
+        sql = RemoveAliases.removeQuotesFromAliases(sql);
+//        String pattern = "'(\\w+)'";
+
+        // 使用replaceAll方法替换匹配到的单引号为空字符串
+        HiveSQLTableLineageParser tableLineageParser = new HiveSQLTableLineageParser(dbType, relationship);
         StatementLineage data = tableLineageParser.parse(sql);
-        data.setRelationship(relationship);
+//        data.setRelationship(relationship);
         return data;
     }
 
@@ -45,6 +58,7 @@ public class DataSQLParser extends SqlParserAbstract {
 
     @Override
     public StatementLineage parseSqlFieldLineage(String sql) {
+        sql = sql.replaceAll("'", "").replaceAll("\"", "");
         HiveSQLFieldLineageParser fieldLineageParser = new HiveSQLFieldLineageParser(dbType);
         StatementLineage data = fieldLineageParser.parse(sql);
         return data;
@@ -52,6 +66,7 @@ public class DataSQLParser extends SqlParserAbstract {
 
     @Override
     public String parseSqlFormatter(String sql) {
+        sql = sql.replaceAll("'", "").replaceAll("\"", "");
         HiveSqlFormatterParser visitor = new HiveSqlFormatterParser(sql);
         visitor.visit(getParseTree(sql));
         return visitor.getFormattedSQL();
@@ -60,7 +75,8 @@ public class DataSQLParser extends SqlParserAbstract {
 
     @Override
     public List<ColumnLineage> parseSqlFieldLineage2(String sql) {
-        HqlFieldLineageParser visitor = new HqlFieldLineageParser(sql, dbType,relationship);
+        sql = sql.replaceAll("'", "").replaceAll("\"", "");
+        HqlFieldLineageParser visitor = new HqlFieldLineageParser(sql, dbType, relationship);
         visitor.visit(getParseTree(sql));
         List<ColumnLineage> hiveFieldLineage = visitor.getHiveFieldLineage();
         return hiveFieldLineage;

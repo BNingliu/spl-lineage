@@ -1,5 +1,6 @@
 package com.myxql.parser.model;
 
+import com.alibaba.fastjson2.JSONObject;
 import lombok.Data;
 
 import java.util.Objects;
@@ -11,19 +12,33 @@ public class TableName {
     private String tableName;
     private Optional<String> metaType;
     private Integer dbType;
+    private JSONObject describe;
 
     public TableName(
             Optional<String> catalogName,
             Optional<String> databaseName,
             String tableName,
             Optional<String> metaType,
-            Integer dbType
+            Integer dbType,
+            JSONObject describe
     ) {
         this.catalogName = catalogName;
         this.databaseName = databaseName;
         this.tableName = tableName;
         this.metaType = metaType;
         this.dbType=dbType;
+        this.describe=describe;
+
+    }
+
+    public TableName(
+            Optional<String> catalogName,
+            Optional<String> databaseName,
+            String tableName,
+            Optional<String> metaType,
+            JSONObject describe
+    ) {
+        this(Optional.empty(), databaseName, tableName, metaType,0,describe);
     }
 
     public TableName(
@@ -32,7 +47,7 @@ public class TableName {
             String tableName,
             Optional<String> metaType
     ) {
-        this(Optional.empty(), databaseName, tableName, metaType,0);
+        this(Optional.empty(), databaseName, tableName, metaType,0,null);
     }
 
     public TableName(Optional<String> databaseName, String tableName, Optional<String> metaType) {
@@ -44,11 +59,11 @@ public class TableName {
     }
 
     public TableName(Optional<String> catalogName, Optional<String> databaseName, String tableName,Integer dbType) {
-        this(catalogName, databaseName, tableName, Optional.empty(),dbType);
+        this(catalogName, databaseName, tableName, Optional.empty(),dbType,null);
     }
 
-    public TableName(Optional<String> databaseName, String tableName) {
-        this(Optional.empty(), databaseName, tableName, Optional.empty());
+    public TableName(Optional<String> databaseName, String tableName,JSONObject describe) {
+        this(Optional.empty(), databaseName, tableName, Optional.empty(),describe);
     }
 
     public TableName(String tableName) {

@@ -1,7 +1,5 @@
 package com.myxql.parser.hive.parser;
 
-import com.alibaba.fastjson.JSONObject;
-import com.myxql.parser.antlr4.Origin;
 import com.myxql.parser.antlr4.ParseException;
 import com.myxql.parser.hive.antlr4.HplsqlBaseVisitor;
 import com.myxql.parser.hive.antlr4.HplsqlParser;
@@ -11,8 +9,6 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.lang3.tuple.Pair;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;

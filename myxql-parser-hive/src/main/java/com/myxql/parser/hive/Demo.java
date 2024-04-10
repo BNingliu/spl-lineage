@@ -3,10 +3,7 @@ package com.myxql.parser.hive;
 import com.alibaba.fastjson2.JSON;
 import com.myxql.parser.db.Platform;
 import com.myxql.parser.hive.parser.DataSQLParser;
-import com.myxql.parser.model.*;
-
-import java.util.List;
-import java.util.Optional;
+import com.myxql.parser.model.StatementLineage;
 
 /**
  * @program: myxql
@@ -19,7 +16,7 @@ public class Demo {
         String sql = "INSERT INTO TABLE db_test.table_result SELECT t1.id, name FROM ( SELECT id1 + id2 AS id FROM db_test.table1 ) t1 LEFT JOIN ( SELECT id, name FROM ( SELECT id, sourcename AS name FROM db_test.table2 ) ) t2 ON t1.id=t2.id";
 
             sql =
-                " SELECT\n" +
+                "INSERT INTO TABLE db_test.table_result  SELECT\n" +
                         "    a.id\n" +
                         ",a.appid\n" +
                         ",a.point_id\n" +
@@ -83,9 +80,28 @@ public class Demo {
 //                        "where m2.mobile is not null ";
 
 
+//        sql="SELECT  userid AS 'distinct_id', province AS 'tag_value', to_date(now()) AS 'base_day' FROM  tag_source.xx.tag_import";
+       sql=" SELECT a.id ,b.tag_id,b.tag_value_enum,case when c.tag_enum!='' THEN '0' else '1' end te\n" +
+               "FROM test_123.ods_company a LEFT JOIN  test_123.ods_portarit_lixian b \n" +
+               "on a.id=b.id LEFT JOIN  test_123.ods_portrait_sftp c\n" +
+               "on a.id=c.id\n" +
+               "LIMIT 100";
+       sql="\n" +
+               "select id as distinct_id , tag_value_enum as tag_value , to_date(now()) AS 'base_day'   from (\n" +
+               "SELECT a.id ,b.tag_id,b.tag_value_enum,case when c.tag_enum!='' THEN 0 else 1 end te\n" +
+               "FROM test_123.ods_company a LEFT JOIN  test_123.ods_portarit_lixian b \n" +
+               "on a.id=b.id LEFT JOIN  test_123.ods_portrait_sftp c\n" +
+               "on a.id=c.id\n" +
+               "    )x \n";
         System.out.println(sql.length());
         DataSQLParser parserService = new DataSQLParser(Platform.hive.getPlatform(),1);
         StatementLineage data = parserService.parseSqlTableLineage(sql);
+//        TableData tableData =(TableData) data.getStatement().get();
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("descName","代发可群标签");
+//        TableName tableName = new TableName(Optional.of("portrait_80"),"xx标签",jsonObject);
+//        tableData.setOutpuTables(Collections.singletonList(tableName));
+
         System.out.println(JSON.toJSONString(data));
 
 // 输入的SQL语句
@@ -118,12 +134,12 @@ public class Demo {
 //                });
 
         System.out.printf("\n");
-        List<ColumnLineage> columnLineages = parserService.parseSqlFieldLineage2(sql);
-        System.out.println(JSON.toJSONString(columnLineages));
-
-        String s = parserService.parseSqlFormatter(sql);
-
-        System.out.println(s);
+//        List<ColumnLineage> columnLineages = parserService.parseSqlFieldLineage2(sql);
+//        System.out.println(JSON.toJSONString(columnLineages));
+//
+//        String s = parserService.parseSqlFormatter(sql);
+//
+//        System.out.println(s);
 
 
     }

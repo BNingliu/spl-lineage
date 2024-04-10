@@ -1,7 +1,10 @@
 package com.myxql.parser;
 
+import com.myxql.parser.clickhouse.parser.ClickHouseSQLParser;
+import com.myxql.parser.datax.DataxParser;
 import com.myxql.parser.db.Platform;
 import com.myxql.parser.hive.parser.DataSQLParser;
+import com.myxql.parser.postgresql.parser.MyPostgreSQLParser;
 import com.myxql.parser.spark.parser.MySparkSQLParser;
 
 /**
@@ -18,8 +21,14 @@ public class SqlParserFactory {
             return new DataSQLParser(dbType,relationship);
         } else if (Platform.impala.getPlatform()==dbType) {
             return new DataSQLParser(dbType,relationship);
-//        } else if (SqlEngineEnum.MYSQL.equals(sqlEngineEnum)) {
-//            return new MysqlSqlParser();
+        }   else if (Platform.qianbase.getPlatform()==dbType) {
+            return new DataSQLParser(dbType,relationship);
+        }else if (Platform.ClickHouse.getPlatform()==dbType) {
+            return new ClickHouseSQLParser(dbType,relationship);
+        }else if (Platform.teledb.getPlatform()==dbType) {
+            return new MyPostgreSQLParser(dbType,relationship);
+        }else if (Platform.datax.getPlatform()==(dbType)) {
+            return new DataxParser(relationship);
 //        } else if (EngineTypeEnum.PRESTO.equals(dbTypeEnum)) {
 //            return new MyPresoSqlParser();
         }

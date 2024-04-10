@@ -44,14 +44,35 @@
         </dependency>
 
         <dependency>
+            <groupId>com.myxql</groupId>
+            <artifactId>myxql-parser-datax</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.myxql</groupId>
+            <artifactId>myxql-parser-clickhouse</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.myxql</groupId>
+            <artifactId>myxql-parser-postgresql</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
+        <finalName>ytd-lineage</finalName>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
                 <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
