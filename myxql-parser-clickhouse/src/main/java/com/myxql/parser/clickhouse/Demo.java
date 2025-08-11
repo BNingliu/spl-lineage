@@ -3,10 +3,7 @@ package com.myxql.parser.clickhouse;
 import com.alibaba.fastjson2.JSON;
 import com.myxql.parser.clickhouse.parser.ClickHouseSQLParser;
 import com.myxql.parser.db.Platform;
-import com.myxql.parser.model.ColumnLineage;
 import com.myxql.parser.model.StatementLineage;
-
-import java.util.List;
 
 /**
  * @program: spl-lineage
@@ -64,20 +61,67 @@ public class Demo {
                         "left join t_landing_page g on d.landing_page_id = g.id and g.appid = a.appid and g.is_deleted = 0\n" +
                         "WHERE a.is_deleted = 0 and a.appid = '600210787264368640' and g.id is null  ";
 
+
+//        sql= "SELECT \n"
+//                + " count( DISTINCT t1.cif) from \n"
+//                + " (SELECT  cif,average_monthly,org_code,create_time from \n"
+//                + "(SELECT cif,mobile,average_monthly,org_code,create_time,row_number() OVER (PARTITION BY cif ORDER BY cast(average_monthly as FLOAT) DESC ) rm \n"
+//                + "from bhyh.average_monthly_assets WHERE create_time>=substr(regexp_replace(cast(add_months(current_timestamp(), -4) as string),'-',''),1,6) )ct  WHERE ct.rm=1 ) t1\n"
+//                + "inner join \n"
+//                + "(SELECT cif,average_monthly,org_code,create_time from (\n"
+//                + "SELECT cif,mobile,average_monthly,org_code,create_time,row_number() OVER (PARTITION BY cif ORDER BY cast(average_monthly as FLOAT) DESC ) rm\n"
+//                + "from bhyh.average_monthly_assets WHERE  create_time <=substr(regexp_replace(cast(add_months(current_timestamp(), -5) as string),'-',''),1,6) )ct  WHERE ct.rm=1 ) t2\n"
+//                + "on t1.cif=t2.cif\n"
+//                + "\n"
+//                + "WHERE  cast(t1.average_monthly as FLOAT)<100000 \n"
+//                + "and cast(t2.average_monthly as FLOAT)>=100000";
+//
+        sql="select t1.client_id                                      as distinct_id\n" +
+                "      ,case when t1.client_id = t2.client_id\n" +
+                "            then 1\n" +
+                "            else 0\n" +
+                "        end                                              as tag_value\n" +
+                "      ,yesterday()                                       as base_day\n" +
+                "      ,lpad(t1.branch_no, 4, '0')                                      as institution_id\n" +
+                "from (\n" +
+                "      select client_id\n" +
+                "            ,branch_no\n" +
+                "        from ods.dim_client\n" +
+                "       where client_status != '3'\n" +
+                "         and organ_flag = '0'\n" +
+                "         and branch_no global not in ('9999','2098','2099')\n" +
+                "      ) t1\n" +
+                "global left join (\n" +
+                "                  select client_id\n" +
+                "                    from ods.dws_pty_xfnapp_rhyh_and_xzhyyh_1d\n" +
+                "                   where ds >= toString(date_sub(DAY, 29, yesterday()))\n" +
+                "                     and ds <= toString(yesterday())\n" +
+                "                     and flag = 1\n" +
+                "                   group by client_id\n" +
+                "                  ) t2\n" +
+                "    on t1.client_id = t2.client_id";
+
+
         System.out.println(sql.length());
         ClickHouseSQLParser parserService = new ClickHouseSQLParser(Platform.ClickHouse.getPlatform(),1);
         StatementLineage data = parserService.parseSqlTableLineage(sql);
+//        Statement statement = data.getStatement().get();
+//        TableData tableName = (TableData) statement;
+//        List<TableName> inputTables = tableName.getInputTables();
+//        TableName tableName1 = inputTables.get(0);
+
         System.out.println(JSON.toJSONString(data));
 
 
-        System.out.printf("\n");
-        List<ColumnLineage> columnLineages = parserService.parseSqlFieldLineage2(sql);
-        System.out.println(JSON.toJSONString(columnLineages));
+//        System.out.printf("\n");
+//        List<ColumnLineage> columnLineages = parserService.parseSqlFieldLineage2(sql);
+//        System.out.println(JSON.toJSONString(columnLineages));
 
 //        String s = parserService.parseSqlFormatter(sql);
 //        System.out.println(s);
 
 
     }
+
 
 }

@@ -20,9 +20,12 @@ import static java.util.stream.Collectors.toList;
 
 public class ClickHouseSQLTableLineageAstBuilder extends CksqlBaseVisitor<StatementLineage> {
     private Integer dbType;
+    private Integer relationship;
 
-    public ClickHouseSQLTableLineageAstBuilder(Integer dbType) {
+    public ClickHouseSQLTableLineageAstBuilder(Integer dbType,Integer relationship) {
         this.dbType = dbType;
+        this.relationship = relationship;
+
     }
 
     private StatementType currentOptType = StatementType.UNKOWN;
@@ -263,7 +266,7 @@ public class ClickHouseSQLTableLineageAstBuilder extends CksqlBaseVisitor<Statem
                 .map(CksqlParser.From_table_clauseContext::from_table_name_clause)
                 .map(CksqlParser.From_table_name_clauseContext::table_name)
                 .map(RuleContext::getText)
-                .map((m)->TableName.parseTableName(m,dbType))
+                .map((m)->TableName.parseTableName(m,dbType,relationship))
                 .map(tableName -> {
                     this.tableData.getInputTables().add(tableName);
                     return null;

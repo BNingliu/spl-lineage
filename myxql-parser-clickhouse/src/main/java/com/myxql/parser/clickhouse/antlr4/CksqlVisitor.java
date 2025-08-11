@@ -1,4 +1,4 @@
-// Generated from /Users/liuningbo/workspace/spl-lineage/myxql-parser-clickhouse/src/main/antlr4/com/myxql/parser/clickhouse/antlr4/Cksql.g4 by ANTLR 4.9.2
+// Generated from com/myxql/parser/clickhouse/antlr4/Cksql.g4 by ANTLR 4.9.3
 package com.myxql.parser.clickhouse.antlr4;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 

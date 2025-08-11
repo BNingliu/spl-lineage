@@ -42,7 +42,7 @@ public class ClickHouseSQLTableLineageParser {
         parser.addErrorListener(new ParseErrorListener());
         parser.getInterpreter().setPredictionMode(PredictionMode.SLL);
 
-        ClickHouseSQLTableLineageAstBuilder sqlVisitor = new ClickHouseSQLTableLineageAstBuilder(dbType);
+        ClickHouseSQLTableLineageAstBuilder sqlVisitor = new ClickHouseSQLTableLineageAstBuilder(dbType,relationship);
         sqlVisitor.setCommand(trimCmd);
 
         try {

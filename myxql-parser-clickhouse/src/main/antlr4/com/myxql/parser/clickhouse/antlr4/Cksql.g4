@@ -870,7 +870,7 @@ from_join_clause :
 
 from_join_type_clause :
        T_INNER? T_JOIN
-     | (T_LEFT | T_RIGHT | T_FULL) T_OUTER? T_JOIN
+     | (T_GLOBAL ? T_LEFT | T_RIGHT | T_FULL) T_OUTER? T_JOIN
      ;
 
 from_table_values_clause:

@@ -28,6 +28,7 @@ public class ClickHouseSQLParser extends SqlParserAbstract {
 
     @Override
     public StatementLineage parseSqlTableLineage(String sql) {
+        sql = sql.replaceAll("%","+");
         ClickHouseSQLTableLineageParser tableLineageParser = new ClickHouseSQLTableLineageParser(dbType,relationship);
         StatementLineage data = tableLineageParser.parse(sql);
         data.setRelationship(relationship);
