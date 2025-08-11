@@ -997,11 +997,11 @@ bool_expr_unary :
     ;
 
 bool_expr_single_in :
-      expr T_NOT? T_IN T_OPEN_P ((expr (T_COMMA expr)*) | select_stmt) T_CLOSE_P
+      expr (T_NOT | T_GLOBAL T_NOT)? T_IN T_OPEN_P ((expr (T_COMMA expr)*) | select_stmt) T_CLOSE_P
     ;
 
 bool_expr_multi_in :
-      T_OPEN_P expr (T_COMMA expr)* T_CLOSE_P T_NOT? T_IN T_OPEN_P select_stmt T_CLOSE_P
+      T_OPEN_P expr (T_COMMA expr)* T_CLOSE_P (T_NOT | T_GLOBAL T_NOT)? T_IN T_OPEN_P select_stmt T_CLOSE_P
     ;
 
 bool_expr_binary :
